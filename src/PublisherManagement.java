@@ -19,6 +19,7 @@ public class PublisherManagement {
         String id, name, phoneNumber;
         boolean check;
         List<String> tmp = new ArrayList<>();
+
         do {
             id = Performance.getID("publisher", "(PXXXXX)", "^P\\d{5}$");
             check = searchPublisherID(id);
@@ -38,10 +39,8 @@ public class PublisherManagement {
         pList.add(new Publisher(id, name, phoneNumber));
         System.out.println("Add succeeded!");
 
-        // for (Publisher x : pList) {
-        // tmp.add(x.getId() + "," + x.getName() + "," + x.getPhoneNumber());
-        // }
-        // Performance.writeListToFile(fName, tmp);
+        // Write to file
+        saveToFile();
     }
 
     private boolean searchPublisherID(String id) {
@@ -69,9 +68,6 @@ public class PublisherManagement {
     }
 
     // FUNCTION 2
-    /**
-     * 
-     */
     public void deletePublisher() {
         String id;
         Publisher x;

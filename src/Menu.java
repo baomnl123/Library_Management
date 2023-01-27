@@ -69,13 +69,12 @@ public class Menu {
     }
 
     public void performAction(int choice) throws IOException {
-        PublisherManagement pM = new PublisherManagement();
-        BookManagement bM = new BookManagement();
         int choice1;
-
+        
         switch (choice) {
             case 1:
                 menu1();
+                PublisherManagement pM = new PublisherManagement();
                 try {
                     choice1 = getChoice(0, 5);
                     switch (choice1) {
@@ -98,13 +97,14 @@ public class Menu {
                             pressKeyContinue();
                             break;
                         case 0:
-                            printMenu();
+                            break;
                     }
                 } catch (NumberFormatException e) {
                 }
                 break;
             case 2:
                 menu2();
+                BookManagement bM = new BookManagement();
                 try {
                     choice1 = getChoice(0, 6);
                     switch (choice1) {
@@ -133,7 +133,7 @@ public class Menu {
                             pressKeyContinue();
                             break;
                         case 0:
-                            printMenu();
+                            break;
                     }
                 } catch (NumberFormatException e) {
                 }
