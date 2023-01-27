@@ -102,7 +102,6 @@ public class Menu {
                     }
                 } catch (NumberFormatException e) {
                 }
-
                 break;
             case 2:
                 menu2();

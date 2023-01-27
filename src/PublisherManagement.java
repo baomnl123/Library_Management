@@ -91,7 +91,6 @@ public class PublisherManagement {
             } while (!choice.matches("^[YN]$"));
             if (choice.matches("Y")) {
                 System.out.println("The publisher is deleted!");
-                // TODO
                 pList.remove(x);
             } else {
                 System.out.println("The publisher is not deleted!");
