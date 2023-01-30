@@ -48,10 +48,11 @@ public class Performance {
                 BufferedReader br = new BufferedReader(fr);
                 String line = br.readLine();
                 while (line != null) {
-                    line = line.trim();
+                    // line = line.trim();
                     if (!line.isEmpty()) {
                         listFile.add(line);
                     }
+                    line = br.readLine();
                 }
                 br.close();
                 fr.close();

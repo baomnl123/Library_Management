@@ -38,7 +38,7 @@ public class BookManagement {
         List<String> tmp = Performance.readLineFromFile(fName);
 
         for (String x : tmp) {
-            StringTokenizer stk = new StringTokenizer(x, "; ");
+            StringTokenizer stk = new StringTokenizer(x, ";");
             String id = stk.nextToken();
             String name = stk.nextToken();
             double price = Double.parseDouble(stk.nextToken());
@@ -96,6 +96,7 @@ public class BookManagement {
                 return;
             }
         }
+        saveToFile();
         System.out.println("Publisher's id not found. A book is not added.");
     }
 
@@ -273,8 +274,8 @@ public class BookManagement {
         }
 
         for (Book x : bList) {
-            tmp.add(x.getId() + ";" + x.getName() + ";" + x.getPrice() + "," + x.getQuantity() + "," + x.getStatus()
-                    + "," + x.getPublisherID());
+            tmp.add(x.getId() + ";" + x.getName() + ";" + x.getPrice() + ";" + x.getQuantity() + ";" + x.getStatus()
+                    + ";" + x.getPublisherID());
         }
 
         Performance.writeListToFile(fName, tmp);

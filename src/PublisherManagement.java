@@ -14,11 +14,25 @@ public class PublisherManagement {
         pList = (ArrayList<Publisher>) getPublihsersFromFile(fName);
     }
 
+    private List<Publisher> getPublihsersFromFile(String fName) {
+        List<Publisher> pubList = new ArrayList<>();
+        List<String> tmp = Performance.readLineFromFile(fName);
+
+        for (String x : tmp) {
+            StringTokenizer stk = new StringTokenizer(x, ";");
+            String id = stk.nextToken();
+            String name = stk.nextToken();
+            String phoneNumber = stk.nextToken();
+
+            pubList.add(new Publisher(id, name, phoneNumber));
+        }
+        return pubList;
+    }
+
     // FUNCTION 1
     public void addPublisher() {
         String id, name, phoneNumber;
         boolean check;
-        List<String> tmp = new ArrayList<>();
 
         do {
             id = Performance.getID("publisher", "(PXXXXX)", "^P\\d{5}$");
@@ -91,8 +105,9 @@ public class PublisherManagement {
             } else {
                 System.out.println("The publisher is not deleted!");
             }
-
         }
+        // Write to File
+        saveToFile();
     }
 
     // FUNCTION 3
@@ -114,25 +129,10 @@ public class PublisherManagement {
         }
 
         for (Publisher x : pList) {
-            tmp.add(x.getId() + "; " + x.getName() + "; " + x.getPhoneNumber());
+            tmp.add(x.getId() + ";" + x.getName() + ";" + x.getPhoneNumber());
         }
         Performance.writeListToFile(fName, tmp);
         System.out.println("Save Succeeded!");
-    }
-
-    private List<Publisher> getPublihsersFromFile(String fName) {
-        List<Publisher> pubList = new ArrayList<>();
-        List<String> tmp = Performance.readLineFromFile(fName);
-
-        for (String x : tmp) {
-            StringTokenizer stk = new StringTokenizer(x, "; ");
-            String id = stk.nextToken();
-            String name = stk.nextToken();
-            String phoneNumber = stk.nextToken();
-
-            pubList.add(new Publisher(id, name, phoneNumber));
-        }
-        return pubList;
     }
 
     // FUNCTION 5
