@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -9,7 +8,7 @@ public class PublisherManagement {
     private Scanner sc = new Scanner(System.in);
     private String fName = "Publisher.txt";
 
-    // Load data from file
+    // Load Publisher from file
     public PublisherManagement() {
         pList = (ArrayList<Publisher>) getPublihsersFromFile(fName);
     }
@@ -93,6 +92,7 @@ public class PublisherManagement {
             System.out.println("Publisher does not exist!");
         } else {
             System.out.println("The publisher before deleted: ");
+            printHeader();
             x.showPublisher1();
             String choice;
             do {
@@ -102,6 +102,7 @@ public class PublisherManagement {
             if (choice.matches("Y")) {
                 System.out.println("The publisher is deleted!");
                 pList.remove(x);
+                saveToFile();
             } else {
                 System.out.println("The publisher is not deleted!");
             }
@@ -110,40 +111,32 @@ public class PublisherManagement {
         saveToFile();
     }
 
+    private void printHeader() {
+        String header = String.format("|%-8s|%-25s|%-12s|", "ID", "Name", "Phone Number");
+        System.out.println(header);
+    }
+
     // FUNCTION 3
     public void displayPublisherList() {
         if (pList.isEmpty())
             System.out.println("The list is empty!");
-        for (Publisher x : pList) {
-            x.showPublisher1();
+        else {
+            printHeader();
+            for (Publisher x : pList) {
+                x.showPublisher1();
+            }
         }
+
     }
 
     // FUNCTION 4
     public void saveToFile() {
         List<String> tmp = new ArrayList<>();
 
-        if (pList.isEmpty()) {
-            System.out.println("The publisher's list is empty");
-            return;
-        }
-
         for (Publisher x : pList) {
             tmp.add(x.getId() + ";" + x.getName() + ";" + x.getPhoneNumber());
         }
-        Performance.writeListToFile(fName, tmp);
-        System.out.println("Save Succeeded!");
-    }
 
-    // FUNCTION 5
-    public void loadPublisherFromFile() {
-        List<Publisher> pubList = getPublihsersFromFile(fName);
-        Collections.sort(pubList);
-        System.out.println("Here is the publisher list: ");
-        String header = String.format("|%-8s|%-25s|%-12s|", "ID", "Name", "PhoneNumber");
-        System.out.println(header);
-        for (int i = 0; i < pubList.size(); i++) {
-            pubList.get(i).showPublisher1();
-        }
+        Performance.writeListToFile(fName, tmp);
     }
 }

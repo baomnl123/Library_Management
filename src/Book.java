@@ -75,7 +75,7 @@ public class Book implements Comparable<Book> {
     }
 
     public void showBook1() {
-        System.out.printf("|%-10s|%-30s|%4.1f|%5d|%-20s|%-20s|\n", id, name, price, quantity, status, publisherID);
+        System.out.printf("|%-8s|%-30s|%-10.1f|%-10d|%-20s|%-20s|\n", id, name, price, quantity, status, publisherID);
     }
 
     public void showBook2() {

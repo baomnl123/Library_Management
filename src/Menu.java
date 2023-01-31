@@ -18,8 +18,6 @@ public class Menu {
         System.out.println("| 1. Create a publisher                      |");
         System.out.println("| 2. Delete the publisher                    |");
         System.out.println("| 3. Print publisher list                    |");
-        System.out.println("| 4. Save the publishers list to file        |");
-        System.out.println("| 5. Print the publishers list from the file |");
         System.out.println("| 0. Back                                    |");
         System.out.println("----------------------------------------------");
     }
@@ -30,8 +28,7 @@ public class Menu {
         System.out.println("| 2. Search the Book                    |");
         System.out.println("| 3. Update a Book                      |");
         System.out.println("| 4. Delete the Book                    |");
-        System.out.println("| 5. Save the Books list to file        |");
-        System.out.println("| 6. Print the Books list from the file |");
+        System.out.println("| 5. Print the Books list               |");
         System.out.println("| 0. Back                               |");
         System.out.println("-----------------------------------------");
     }
@@ -70,13 +67,13 @@ public class Menu {
 
     public void performAction(int choice) throws IOException {
         int choice1;
-        
+
         switch (choice) {
             case 1:
                 menu1();
                 PublisherManagement pM = new PublisherManagement();
                 try {
-                    choice1 = getChoice(0, 5);
+                    choice1 = getChoice(0, 3);
                     switch (choice1) {
                         case 1:
                             pM.addPublisher();
@@ -88,14 +85,7 @@ public class Menu {
                             break;
                         case 3:
                             pM.displayPublisherList();
-                        case 4:
-                            pM.saveToFile();
                             pressKeyContinue();
-                            break;
-                        case 5:
-                            pM.loadPublisherFromFile();
-                            pressKeyContinue();
-                            break;
                         case 0:
                             break;
                     }
@@ -106,7 +96,7 @@ public class Menu {
                 menu2();
                 BookManagement bM = new BookManagement();
                 try {
-                    choice1 = getChoice(0, 6);
+                    choice1 = getChoice(0, 5);
                     switch (choice1) {
                         case 1:
                             bM.addBook();
@@ -125,10 +115,6 @@ public class Menu {
                             pressKeyContinue();
                             break;
                         case 5:
-                            bM.saveToFile();
-                            pressKeyContinue();
-                            break;
-                        case 6:
                             bM.printBookFromFile();
                             pressKeyContinue();
                             break;

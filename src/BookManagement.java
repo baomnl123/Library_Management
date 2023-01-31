@@ -1,11 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
-// import Performance;
 
 public class BookManagement {
     private Scanner sc = new Scanner(System.in);
@@ -13,6 +10,7 @@ public class BookManagement {
     private String fName = "Book.txt";
     private List<Publisher> pList = getPublisherFromFile();
 
+    // Load Publisher from file;
     private List<Publisher> getPublisherFromFile() {
         String fName = "Publisher.txt";
         List<Publisher> pubList = new ArrayList<>();
@@ -29,6 +27,7 @@ public class BookManagement {
         return pubList;
     }
 
+    // Load Book from file;
     public BookManagement() {
         bList = (ArrayList<Book>) getBooksFromFile(fName);
     }
@@ -53,7 +52,7 @@ public class BookManagement {
 
     // FUNCTION 1
     public void addBook() {
-        String id, name, status, display;
+        String id, name, status, checkStatus;
         String publisherID;
         double price;
         int quantity;
@@ -68,17 +67,17 @@ public class BookManagement {
         } while (check == true);
         do {
             System.out.print("Enter book's name: ");
-            name = sc.nextLine();
+            name = sc.nextLine().toUpperCase();
         } while (!name.matches("^[a-zA-Z ]{5,30}$"));
         do {
             System.out.print("Enter book's status [Y = Available, N = Not Available]: ");
-            status = sc.nextLine().toUpperCase();
-            if (status.matches("Y")) {
-                display = "Available";
+            checkStatus = sc.nextLine().toUpperCase();
+            if (checkStatus.matches("Y")) {
+                status = "Available";
             } else {
-                display = "Not Available";
+                status = "Not Available";
             }
-        } while (!status.matches("^[YN]$"));
+        } while (!checkStatus.matches("^[YN]$"));
         do {
             System.out.print("Enter book's price: ");
             price = Integer.parseInt(sc.nextLine());
@@ -91,12 +90,12 @@ public class BookManagement {
         for (int i = 0; i < pList.size(); i++) {
             String tmp = pList.get(i).getId();
             if (tmp.equalsIgnoreCase(publisherID)) {
-                bList.add(new Book(id, name, price, quantity, display, publisherID));
+                bList.add(new Book(id, name, price, quantity, status, publisherID));
                 System.out.println("A new book is added.");
+                saveToFile();
                 return;
             }
         }
-        saveToFile();
         System.out.println("Publisher's id not found. A book is not added.");
     }
 
@@ -144,22 +143,35 @@ public class BookManagement {
                 case 1:
                     String publisherID = Performance.getID("publisher", "(PXXXXX)", "^P\\d{5}$");
                     x = searchBooksByPublishersID(publisherID);
-
-                    if (x == null) {
-                        System.out.println("Book not found!");
-                    } else {
-                        for (Book tmp : x) {
-                            tmp.showBook1();
-                        }
-                    }
+                    showBook(x);
                     break;
+
+                // Note: Phần search by name chưa xong
                 case 2:
                     System.out.print("Enter book's name: ");
-                    String bookName = sc.nextLine();
+                    String bookName = sc.nextLine().toUpperCase();
                     x = searchBookByName(bookName);
+                    showBook(x);
                     break;
             }
         } while (choice != 0);
+    }
+
+    private void showBook(List<Book> x) {
+        if (x == null) {
+            System.out.println("Book not found!");
+        } else {
+            printHeader();
+            for (Book tmp : x) {
+                tmp.showBook1();
+            }
+        }
+    }
+
+    private void printHeader() {
+        String header = String.format("|%-8s|%-30s|%-10s|%-10s|%-20s|%-20s|", "ID", "Name", "Price", "Quantity",
+                "Status", "Publisher ID");
+        System.out.println(header);
     }
 
     private List<Book> searchBooksByPublishersID(String publisherID) {
@@ -190,13 +202,10 @@ public class BookManagement {
         if (bList.isEmpty()) {
             return null;
         }
-        for (int i = 0; i > bList.size(); i++) {
+        for (int i = 0; i < bList.size(); i++) {
             if (bList.get(i).getName().contains(bookName)) {
                 tmp.add(bList.get(i));
             }
-        }
-        if (tmp.isEmpty()) {
-            return null;
         }
         return tmp;
     }
@@ -211,10 +220,11 @@ public class BookManagement {
         findBook = isBookExist(id);
         x = searchBookByID(id);
 
-        if (findBook == true) {
+        if (findBook == false) {
             System.out.println("Book's name doesn't exist!");
         } else {
             System.out.println("Here is the book before updated the name");
+            printHeader();
             x.showBook1();
             // boolean check = true;
             String choice;
@@ -229,6 +239,8 @@ public class BookManagement {
                         newName = sc.nextLine();
                     } while (!newName.matches("^[a-zA-Z]{5,30}$"));
                     System.out.println("The new book's name is updated!");
+                    x.setName(newName);
+                    saveToFile();
                 } else {
                     System.out.println("The book's name is not updated!");
                 }
@@ -241,6 +253,7 @@ public class BookManagement {
         String id, choice;
         boolean findBook;
         Book x;
+        List<String> tmp;
 
         id = Performance.getID("book", "(BXXXXX)", "^B\\d{5}$");
         findBook = isBookExist(id);
@@ -248,30 +261,29 @@ public class BookManagement {
 
         if (findBook) {
             System.out.println("Here is the book before deleted");
+            printHeader();
             x.showBook1();
             do {
                 System.out.print("Do you want to delete the book [Y = Yes, N = No]: ");
                 choice = sc.nextLine().toUpperCase();
             } while (!choice.matches("^[YN]$"));
             if (choice.matches("Y")) {
-                bList.remove(findBook);
+                bList.remove(x);
                 System.out.println("The book is deleted successfully!");
+                saveToFile();
             } else {
                 System.out.println("The book is not deleted!");
             }
         } else {
             System.out.println("The book's name doesn't exist!");
         }
+
+        saveToFile();
     }
 
     // FUNCTION 5
     public void saveToFile() {
         List<String> tmp = new ArrayList<>();
-
-        if (bList.isEmpty()) {
-            System.out.println("The list is empty");
-            return;
-        }
 
         for (Book x : bList) {
             tmp.add(x.getId() + ";" + x.getName() + ";" + x.getPrice() + ";" + x.getQuantity() + ";" + x.getStatus()
