@@ -46,7 +46,7 @@ public class Performance {
             try {
                 FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr);
-                String line = br.readLine();
+                String line = "";
                 while (line != null) {
                     // line = line.trim();
                     if (!line.isEmpty()) {

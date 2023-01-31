@@ -90,6 +90,7 @@ public class Menu {
                             break;
                     }
                 } catch (NumberFormatException e) {
+                    System.out.println("Invalid input, please try again!");
                 }
                 break;
             case 2:
@@ -122,6 +123,7 @@ public class Menu {
                             break;
                     }
                 } catch (NumberFormatException e) {
+                    System.out.println("Invalid input, please try again!");
                 }
                 break;
             case 0:

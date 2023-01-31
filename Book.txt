@@ -1,1 +1,7 @@
-B00002;HIHIHI;4.0;3;Available;P00002
+B00001;D;2.0;2;Available;P00001
+B00002;C;2.0;2;Available;P00001
+B00003;B;2.0;2;Available;P00001
+B00004;A;2.0;2;Available;P00001
+
+
+

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -31,15 +32,15 @@ public class PublisherManagement {
     // FUNCTION 1
     public void addPublisher() {
         String id, name, phoneNumber;
-        boolean check;
+        Publisher check;
 
         do {
             id = Performance.getID("publisher", "(PXXXXX)", "^P\\d{5}$");
-            check = searchPublisherID(id);
-            if (check == true) {
+            check = searchPublisher(id);
+            if (check != null) {
                 System.out.println("The publisher has already existed!");
             }
-        } while (check == true);
+        } while (check != null);
         do {
             System.out.print("Enter publisher's name: ");
             name = sc.nextLine();
@@ -54,18 +55,6 @@ public class PublisherManagement {
 
         // Write to file
         saveToFile();
-    }
-
-    private boolean searchPublisherID(String id) {
-        if (pList.isEmpty()) {
-            return false;
-        }
-        for (int i = 0; i < pList.size(); i++) {
-            if (pList.get(i).getId().equalsIgnoreCase(id)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private Publisher searchPublisher(String id) {
@@ -83,25 +72,27 @@ public class PublisherManagement {
     // FUNCTION 2
     public void deletePublisher() {
         String id;
-        Publisher x;
+        Publisher check;
 
         id = Performance.getID("publisher", "(PXXXXX)", "^P\\d{5}$");
-        x = searchPublisher(id);
+        check = searchPublisher(id);
 
-        if (x == null) {
+        if (check == null) {
             System.out.println("Publisher does not exist!");
         } else {
             System.out.println("The publisher before deleted: ");
             printHeader();
-            x.showPublisher1();
+            check.showPublisher1();
             String choice;
+
             do {
                 System.out.println("Do you want to delete publisher? [Y/N]");
                 choice = sc.nextLine().toUpperCase();
             } while (!choice.matches("^[YN]$"));
+
             if (choice.matches("Y")) {
                 System.out.println("The publisher is deleted!");
-                pList.remove(x);
+                pList.remove(check);
                 saveToFile();
             } else {
                 System.out.println("The publisher is not deleted!");
@@ -122,6 +113,7 @@ public class PublisherManagement {
             System.out.println("The list is empty!");
         else {
             printHeader();
+            Collections.sort(pList);
             for (Publisher x : pList) {
                 x.showPublisher1();
             }
