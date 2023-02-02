@@ -244,7 +244,6 @@ public class BookManagement {
     public void deleteBook() {
         String id, choice;
         Book x, findBook;
-        List<String> tmp;
 
         id = Performance.getID("book", "(BXXXXX)", "^B\\d{5}$");
         findBook = searchBookByID(id);
